@@ -11,7 +11,7 @@ An interactive 3D web application that visualizes real-time space data from NASA
 
 ### Features
 
-- **🪐 Home Cube Navigation**  
+- **Home Cube Navigation**  
   Interactive rotating cube with clickable sides:  
   - **Earth** → View Earth through NASA EPIC  
   - **Mars** → Explore Mars Rover images & info  
