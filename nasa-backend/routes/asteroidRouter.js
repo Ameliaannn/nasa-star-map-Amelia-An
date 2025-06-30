@@ -5,7 +5,6 @@ require('dotenv').config();
 const router = express.Router();
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
-// 获取近地小行星（今天）
 router.get('/asteroids', async(req, res) => {
     const today = new Date().toISOString().split('T')[0];
     try {
