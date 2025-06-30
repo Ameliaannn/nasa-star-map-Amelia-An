@@ -56,16 +56,14 @@ An interactive 3D web application that visualizes real-time space data from NASA
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/nasa-star-map-System.git
-cd nasa-star-map-System
+git clone https://github.com/Ameliaannn/nasa-star-map-Amelia-An.git
+cd nasa-star-map-Amelia-An
 ```
 
 ### 2. Setup and Run Backend
 ```bash
 cd nasa-backend
 npm install
-# Optionally set environment variable if not hardcoded:
-# export NASA_API_KEY=your_api_key
 node index.js
 ```
 
@@ -123,9 +121,8 @@ nasa-star-map-System/
 | Endpoint         | Description               |
 |------------------|---------------------------|
 | `/api/epic`      | Earth images (EPIC)       |
-| `/api/mars`      | Mars Rover photos         |
+| `/api/mars`      | Mars Rover photos & Info  |
 | `/api/asteroids` | Top asteroid sizes        |
-| `/api/nasa`      | General NASA information  |
 
 ---
 
