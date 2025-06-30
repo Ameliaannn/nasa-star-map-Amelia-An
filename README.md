@@ -15,7 +15,7 @@ An interactive 3D web application that visualizes real-time space data from NASA
   Interactive rotating Obj:
   - Earth → View Earth through NASA EPIC
   - Mars → Explore Mars Rover images and information
-  - Homwcube → Top 10 asteroid sizes with chart and near-Earth objects table
+  - Homecube → Top 10 asteroid sizes with chart and near-Earth objects table
 
 - **360° Planet Rotation**  
   Realistic spinning planets that respond to mouse movement (Three.js)
