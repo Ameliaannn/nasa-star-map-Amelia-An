@@ -11,11 +11,11 @@ An interactive 3D web application that visualizes real-time space data from NASA
 
 ## Features
 
-- **Home Cube Navigation**  
-  Interactive rotating cube with clickable sides:
+- **Navigation**  
+  Interactive rotating Obj:
   - Earth → View Earth through NASA EPIC
   - Mars → Explore Mars Rover images and information
-  - Asteroids → Top 10 asteroid sizes with chart and near-Earth objects table
+  - Homwcube → Top 10 asteroid sizes with chart and near-Earth objects table
 
 - **360° Planet Rotation**  
   Realistic spinning planets that respond to mouse movement (Three.js)
