@@ -1,26 +1,32 @@
 const express = require('express');
-const axios = require('axios');
-require('dotenv').config();
-
 const router = express.Router();
-const NASA_API_KEY = process.env.NASA_API_KEY;
+const pool = require('../db');
 
-router.get('/asteroids', async(req, res) => {
-    const today = new Date().toISOString().split('T')[0];
+router.get('/', async(req, res) => {
+    const date = req.query.date;
+
+    if (!date) {
+        return res.status(400).json({ error: 'Missing date parameter' });
+    }
+
     try {
-        const response = await axios.get('https://api.nasa.gov/neo/rest/v1/feed', {
-            params: {
-                start_date: today,
-                end_date: today,
-                api_key: NASA_API_KEY,
-            }
-        });
+        const result = await pool.query(
+            `SELECT
+  neo_id,
+  name,
+  magnitude,
+  is_hazardous,
+  TO_CHAR(approach_date, 'YYYY-MM-DD') AS approach_date
+FROM asteroids
+WHERE approach_date = $1
+ORDER BY magnitude ASC`, [date]
+        );
+        console.log('Fetching from DATABASE!');
 
-        const data = response.data.near_earth_objects[today];
-        res.json(data);
+        res.json(result.rows);
     } catch (error) {
-        console.error('Failed to fetch asteroid data:', error.message);
-        res.status(500).json({ error: 'Failed to fetch asteroid data' });
+        console.error('DB fetch error:', error.message);
+        res.status(500).json({ error: 'Failed to fetch data from database' });
     }
 });
 
