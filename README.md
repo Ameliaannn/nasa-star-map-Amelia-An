@@ -2,59 +2,77 @@
 
 An interactive 3D web application that visualizes real-time space data from NASA using visual effects, charts, and interactive planets. Users can explore Mars rover photos, Earth EPIC images, and asteroid information.
 
-## Live Demo & Video
-
+## Live Demo 
 - Web App: [https://nasa-frontend-lemon.vercel.app/](https://nasa-frontend-lemon.vercel.app/)
-- YouTube Demo: [https://www.youtube.com/watch?v=LZzoJlKi4Uw](https://www.youtube.com/watch?v=LZzoJlKi4Uw)
 
 ---
 
-## Features
+## New Features (20/07/2025 Update)
 
-- **Navigation**  
-  Interactive rotating Obj:
-  - Earth → View Earth through NASA EPIC
-  - Mars → Explore Mars Rover images and information
-  - Homecube → Top 10 asteroid sizes with chart and near-Earth objects table
+### EPIC Earth View Calendar
+- **Frontend Date Picker** added to the Earth (EPIC) section
+- Users can now **select any date** from **2015-06-13 to 2025-07-XX** (latest available)
+- Dates after latest available are **automatically disabled**
+- Still powered by **NASA EPIC API** – API usage logic remains unchanged
 
-- **360° Planet Rotation**  
-  Realistic spinning planets that respond to mouse movement (Three.js)
+### Asteroids Database: PostgreSQL + Scheduled Fetch
+- Introduced a **PostgreSQL database (`neodata`)** hosted on **Render**
+- Created a **daily cron job** (runs at **06:00 UTC**) to fetch current day's near-Earth object (NEO) data
+- Fetch begins from **2025-07-18**, so earlier dates are unavailable in the database
+- **Frontend now reads NEO data directly from the database**, not API
 
-- **Charts & Tables**  
-  - Asteroid size bar chart (Recharts)
-  - Near-Earth asteroid table with zoom-in effect
+### NEO Data Visualization Enhancement
+- **Chart 1**: Sorted by **absolute magnitude (brightness)** ascending, with:
+  - **Danger Flag**, **Distance**, **Name**, etc.
+- **Chart 2**: Shows **Top NEOs by size over past 7 days**
+  - Includes **calendar picker** to select a specific day (no grey-out, but shows “Sorry, Data went out” tip if not available)
+  - Real-time updates based on database content
 
-- **Mars Info Viewer**  
-  Displays Mars mission photos and camera labels
+---
 
-- **EPIC Earth View**  
-  Daily Earth imagery from NASA EPIC API
+## 🛰 Features Overview
 
-- **Dialogue UI Navigation**  
-  Game-style dialogue navigation popups
+- **Navigation**
+  - Earth → EPIC images with date selector
+  - Mars → Mars Rover photos + camera labels
+  - Homecube → Asteroid charts + NEO database
+
+- **3D Planetary Interaction**  
+  Realistic **360° spinning planets** (Three.js)  
+  Mouse-controlled interactive rotation
+
+- **Dialogue UI**  
+  Game-style interactive pop-up guidance
+
+---
+
+## Visualizations
+
+- **EPIC Earth Viewer**  
+  - NASA EPIC imagery based on user-selected valid dates  
+  - Automatic grey-out of invalid future dates
+
+- **Mars Rover Gallery**  
+  - Displays camera info and images from different Mars missions
+
+- **Asteroid Charts**
+  - **Chart 1**: Brightness-based (magnitude) sorted NEOs  
+  - **Chart 2**: Largest asteroids from the last 7 days (selectable)
 
 ---
 
 ## Tech Stack
 
-- Frontend: React + Vite + Tailwind CSS + Three.js + Recharts  
-- Backend: Node.js + Express  
-- Deployment: Vercel (Frontend), Render (Backend)  
-- Data Source: [NASA Open APIs](https://api.nasa.gov/)
-
----
-
-## Requirements
-
-- Node.js v18+
-- npm v9+
-- NASA API Key (register at https://api.nasa.gov)
+- **Frontend**: React + Vite + Tailwind CSS + Three.js + Recharts  
+- **Backend**: Node.js + Express + PostgreSQL (Render-hosted)  
+- **Deployment**: Vercel (Frontend) + Render (Backend & DB)  
+- **NASA Data**: [NASA Open APIs](https://api.nasa.gov)
 
 ---
 
 ## Setup Instructions
 
-### 1. Clone the repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/Ameliaannn/nasa-star-map-Amelia-An.git
 cd nasa-star-map-Amelia-An
@@ -66,8 +84,8 @@ cd nasa-backend
 npm install
 node index.js
 ```
-
-Backend will run on default port `5000`.
+- Runs on: `http://localhost:5000`
+- Database: PostgreSQL (must configure DB connection string via `.env`)
 
 ### 3. Setup and Run Frontend
 ```bash
@@ -75,65 +93,62 @@ cd ../nasa_frontend
 npm install
 npm run dev
 ```
-
-Frontend runs on Vite’s default port `5173` (or as configured).
+- Runs on: `http://localhost:5173`
 
 ---
 
-## Folder Structure
+## Updated Backend Folder Structure
 
 ```
-nasa-star-map-System/
-├── nasa-backend/
-│   ├── routes/
-│   │   ├── asteroidRouter.js
-│   │   ├── epicRouter.js
-│   │   ├── marsRouter.js
-│   │   └── nasaRouter.js
-│   ├── users.js
-│   ├── app.js
-│   ├── index.js
-│   ├── package.json
-├── nasa_frontend/
-│   ├── public/
-│   │   └── textures/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── pages/
-│   │   │   ├── Home.jsx
-│   │   │   ├── EarthInfo.jsx
-│   │   │   ├── MarsInfo.jsx
-│   │   │   └── AsteroidSizeChart.jsx
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── tailwind.config.js
-│   ├── vite.config.js
-│   ├── vercel.json
-│   └── README.md
+nasa-backend/
+├── routes/
+│   ├── asteroidRouter.js       
+│   ├── epicRouter.js          
+│   ├── marsRouter.js           
+│   ├── nasaRouter.js           
+│   ├── top10.js                
+│   └── users.js                  
+├── app.js                     
+├── index.js                    
+├── cronjob.js                  
+├── db.js                      
+├── initdb.js                   
+├── Neodata.js                  
+├── package.json
 ```
 
 ---
 
-## API Endpoints
+| Routes           | Description                                                             |
+|------------------|-------------------------------------------------------------------------|
+| `/api/epic`      | Get NASA EPIC Earth Images (supports date lookup)                       |
+| `/api/mars`      | Get Mars Rover Pictures and Camera Information                          |
+| `/api/asteroids` | Real-time acquisition of asteroid data from NASA (no repository)        |
+| `/api/neodb`     | Reading of near-Earth asteroid data from database (from 2025/07/18)     |
+| `/api/top10`     | Getting data on the top 10 asteroids in terms of brightness             |
 
-| Endpoint         | Description               |
-|------------------|---------------------------|
-| `/api/epic`      | Earth images (EPIC)       |
-| `/api/mars`      | Mars Rover photos & Info  |
-| `/api/asteroids` | Top asteroid sizes        |
 
 ---
 
-## Deployment
+## Date Picker Behavior Summary
 
-- Frontend is deployed on **Vercel**  
-- Backend is deployed on **Render**  
-- No need to manually input NASA Key on frontend; API key is securely managed in backend
+| Section   | Picker Behavior                          |
+|-----------|-------------------------------------------|
+| EPIC Earth | Disabled future dates after latest NASA data |
+| NEO Chart | All dates selectable, warns if no data    |
+
+---
+
+## Requirements
+
+- Node.js v18+
+- npm v9+
+- PostgreSQL connection (Render or local)
+- NASA API Key (register at [api.nasa.gov](https://api.nasa.gov))
 
 ---
 
 ## License
 
-This project is created as part of the 2025 Software Engineer Coding Challenge.
+This project was created for the **2025 Software Engineer Coding Challenge**.  
+Feel free to explore, contribute, and share ideas!
