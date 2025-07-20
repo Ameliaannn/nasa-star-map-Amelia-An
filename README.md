@@ -30,7 +30,7 @@ An interactive 3D web application that visualizes real-time space data from NASA
 
 ---
 
-## 🛰 Features Overview
+## Features Overview
 
 - **Navigation**
   - Earth → EPIC images with date selector
@@ -100,23 +100,48 @@ npm run dev
 ## Updated Backend Folder Structure
 
 ```
-nasa-backend/
-├── routes/
-│   ├── asteroidRouter.js       
-│   ├── epicRouter.js          
-│   ├── marsRouter.js           
-│   ├── nasaRouter.js           
-│   ├── top10.js                
-│   └── users.js                  
-├── app.js                     
-├── index.js                    
-├── cronjob.js                  
-├── db.js                      
-├── initdb.js                   
-├── Neodata.js                  
-├── package.json
+nasa-star-map-System/
+├── nasa-backend/
+│   ├── routes/
+│   │   ├── asteroidRouter.js
+│   │   ├── epicRouter.js
+│   │   ├── marsRouter.js
+│   │   ├── nasaRouter.js
+│   │   ├── top10.js
+│   │   └── users.js
+│   ├── db/
+│   │   ├── neodata.sql
+│   │   └── cron-fetch.js
+│   ├── app.js
+│   ├── index.js
+│   ├── cronjob.js
+│   ├── db.js
+│   ├── initdb.js
+│   ├── Neodata.js
+│   ├── package.json
+├── nasa_frontend/
+│   ├── public/
+│   │   └── textures/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── pages/
+│   │   │   ├── home.jsx
+│   │   │   ├── EarthInfo.jsx
+│   │   │   ├── MarsInfo.jsx
+│   │   │   ├── AsteroidSizeChart.jsx
+│   │   │   ├── HomeCube.jsx
+│   │   │   ├── Planet.jsx
+│   │   │   ├── SolarSystemHomeCube.jsx
+│   │   │   └── NasaData.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── index.css
+│   ├── App.css
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   ├── vercel.json
+│   └── README.md
 ```
-
 ---
 
 | Routes           | Description                                                             |
